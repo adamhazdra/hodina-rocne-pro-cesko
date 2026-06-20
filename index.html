@@ -243,6 +243,59 @@ body {
 }
 @media(max-width:700px){.legend-extended-grid{grid-template-columns:1fr;}}
 
+/* ── MOBILE ── */
+@media(max-width:700px){
+  .header {
+    flex-direction: column; gap: 24px;
+    padding: 24px 20px 20px;
+  }
+  .h-title { font-size: 28px; }
+  .h-subtitle { font-size: 12px; }
+  .h-score { flex-direction: row; align-items: center; gap: 20px; }
+  .ring { width: 90px; height: 90px; }
+  .ring svg { width: 90px; height: 90px; }
+  .ring-num { font-size: 26px; }
+  .ring-label { text-align: left; }
+  .summary-stats { gap: 14px; }
+  .stat-num { font-size: 18px; }
+
+  .legend-bar {
+    padding: 10px 20px; gap: 12px; flex-wrap: wrap;
+  }
+  .leg:last-child { display: none; } /* trend arrow legend, zkrátí legendu */
+
+  .main { padding: 16px 12px 32px; }
+
+  .grid4, .grid3, .grid2 {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .changelog-wrap { padding: 0 20px 24px; }
+
+  .pills { gap: 5px; }
+  .pill { font-size: 10px; padding: 3px 8px 3px 5px; }
+
+  .layer-keys { gap: 10px; flex-wrap: wrap; }
+
+  .legend-extended { padding: 12px 14px 10px; }
+  .legend-extended-note { font-size: 10px; }
+}
+
+/* ── COLLAPSIBLE INDICATORS ── */
+.ind-hidden { display: none; }
+.ind-toggle {
+  display: flex; align-items: center; justify-content: center;
+  gap: 5px; width: 100%;
+  background: none; border: none; border-top: 1px solid #f1f5f9;
+  color: #64748b; font-size: 11px; font-family: inherit;
+  padding: 8px 16px; cursor: pointer;
+  transition: background .15s, color .15s;
+}
+.ind-toggle:hover { background: #f8fafc; color: #334155; }
+.ind-toggle svg { transition: transform .2s; flex-shrink: 0; }
+.ind-toggle.open svg { transform: rotate(180deg); }
+
 </style>
 </head>
 <body>
@@ -782,6 +835,50 @@ function toggleChangelog(btn) {
   btn.classList.toggle('open', open);
   btn.setAttribute('aria-expanded', open);
 }
+
+// ── Collapsible indicators ──────────────────────────────────────────
+(function() {
+  const MAX_VISIBLE = 4;
+
+  document.querySelectorAll('.card').forEach(function(card) {
+    const inds = Array.from(card.querySelectorAll('.ind'));
+    if (inds.length <= MAX_VISIBLE) return;
+
+    // Hide indicators beyond MAX_VISIBLE
+    inds.slice(MAX_VISIBLE).forEach(function(ind) {
+      ind.classList.add('ind-hidden');
+    });
+
+    const hidden = inds.length - MAX_VISIBLE;
+
+    // Create toggle button
+    const btn = document.createElement('button');
+    btn.className = 'ind-toggle';
+    btn.setAttribute('aria-expanded', 'false');
+    btn.innerHTML =
+      '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>' +
+      '<span>Zobrazit dalších ' + hidden + ' ukazatelů</span>';
+
+    btn.addEventListener('click', function() {
+      const isOpen = btn.classList.toggle('open');
+      btn.setAttribute('aria-expanded', isOpen);
+      inds.slice(MAX_VISIBLE).forEach(function(ind) {
+        ind.classList.toggle('ind-hidden', !isOpen);
+      });
+      btn.querySelector('span').textContent = isOpen
+        ? 'Skrýt'
+        : 'Zobrazit dalších ' + hidden + ' ukazatelů';
+    });
+
+    // Insert before card-sources (if exists) or at end of card
+    const sources = card.querySelector('.card-sources');
+    if (sources) {
+      card.insertBefore(btn, sources);
+    } else {
+      card.appendChild(btn);
+    }
+  });
+})();
 </script>
 
 
