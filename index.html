@@ -251,6 +251,7 @@ body {
   }
   .h-title { font-size: 28px; }
   .h-subtitle { font-size: 12px; }
+  .score-history { display: none; }
   .h-score { flex-direction: row; align-items: center; gap: 20px; }
   .ring { width: 90px; height: 90px; }
   .ring svg { width: 90px; height: 90px; }
@@ -299,13 +300,7 @@ body {
 
 
 
-/* ── Score history timeline (v h-score) ─────────────────── */
-.h-score {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  gap: 18px;
-}
+
 .score-history {
   display: flex;
   flex-direction: column;
@@ -317,19 +312,15 @@ body {
   text-transform: uppercase; color: #475569; margin-bottom: 6px; white-space: nowrap;
 }
 .sh-svg { display: block; width: 170px; }
-.h-score-ring {
-  display: flex; flex-direction: column; align-items: center; gap: 10px; flex-shrink: 0;
+
+/* ── Score history timeline (nad kruhem v h-score) ─────── */
+
+.sh-title {
+  font-size: 8px; font-weight: 600; letter-spacing: .13em;
+  text-transform: uppercase; color: #64748b; margin-bottom: 6px;
+  white-space: nowrap;
 }
-@media(max-width:700px){
-  .h-score {
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 14px;
-    width: 100%;
-  }
-  .sh-svg { width: 140px; }
-  .h-score-ring {}
-}
+.sh-svg { display: block; width: 160px; max-width: 100%; }
 </style>
 </head>
 <body>
@@ -408,8 +399,7 @@ body {
         <text x="156" y="52" text-anchor="middle" fill="#334155" font-size="7.5">Q1&#8217;27</text>
       </svg>
     </div>
-    <div class="h-score-ring">
-      <div class="ring">
+    <div class="ring">
       <svg viewBox="0 0 130 130">
         <circle cx="65" cy="65" r="54" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="8"/>
         <!-- 5.7/10 × 2π×54 = 0.57 × 339.3 = 193.4 -->
