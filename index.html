@@ -297,20 +297,38 @@ body {
 .ind-toggle.open svg { transform: rotate(180deg); }
 
 
-/* ── Score history timeline ──────────────────────────────── */
+
+
+/* ── Score history timeline (v h-score) ─────────────────── */
+.h-score {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 18px;
+}
 .score-history {
-  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-shrink: 0;
 }
 .sh-title {
-  font-size: 9px; font-weight: 600; letter-spacing: .14em;
-  text-transform: uppercase; color: #475569; margin-bottom: 8px;
+  font-size: 8px; font-weight: 600; letter-spacing: .13em;
+  text-transform: uppercase; color: #475569; margin-bottom: 6px; white-space: nowrap;
 }
-.sh-wrap {
-  overflow-x: auto; -webkit-overflow-scrolling: touch;
+.sh-svg { display: block; width: 170px; }
+.h-score-ring {
+  display: flex; flex-direction: column; align-items: center; gap: 10px; flex-shrink: 0;
 }
-.sh-svg { display: block; min-width: 280px; width: 100%; max-width: 480px; }
 @media(max-width:700px){
-  .sh-svg { max-width: 100%; }
+  .h-score {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 14px;
+    width: 100%;
+  }
+  .sh-svg { width: 140px; }
+  .h-score-ring {}
 }
 </style>
 </head>
@@ -356,45 +374,42 @@ body {
       <div class="pill"><div class="pill-dot" style="background:#22c55e"></div>11 Inovace<span class="pill-score" style="color:#ca8a04">4.9</span></div>
       <div class="pill"><div class="pill-dot" style="background:#22c55e"></div>12 Životní prostředí<span class="pill-score" style="color:#ca8a04">4.6</span></div>
 
-    <!-- Score history timeline -->
-    <div class="score-history">
-      <div class="sh-title">Vývoj celkového indexu · kvartálně</div>
-      <div class="sh-wrap">
-        <svg class="sh-svg" viewBox="0 0 400 68" xmlns="http://www.w3.org/2000/svg">
-          <!-- Baseline rule -->
-          <line x1="10" y1="46" x2="390" y2="46" stroke="#1e3a5f" stroke-width="1"/>
-
-          <!-- Y scale hint: 4.0 bottom (y=46), 7.0 top (y=8) → 1pt = 12.67px -->
-          <!-- Q2 2026 · 5,8 → y = 46 - (5.8-4.0)*12.67 = 46 - 22.8 = 23.2 ≈ 23 -->
-          <line x1="60" y1="46" x2="60" y2="23" stroke="rgba(59,130,246,.25)" stroke-width="1"/>
-          <circle cx="60" cy="23" r="5" fill="#3b82f6"/>
-          <text x="60" y="17" text-anchor="middle" fill="#93c5fd" font-size="9.5" font-weight="700">5,8</text>
-          <text x="60" y="60" text-anchor="middle" fill="#475569" font-size="8.5">Q2 &#8217;26</text>
-
-          <!-- Connecting line Q2→Q3 -->
-          <line x1="65" y1="23" x2="149" y2="24" stroke="rgba(59,130,246,.45)" stroke-width="1.5" stroke-dasharray="none"/>
-
-          <!-- Q3 2026 · 5,7 → y = 46 - (5.7-4.0)*12.67 = 46 - 21.5 = 24.5 ≈ 24 -->
-          <line x1="154" y1="46" x2="154" y2="24" stroke="rgba(59,130,246,.25)" stroke-width="1"/>
-          <circle cx="154" cy="24" r="5" fill="#3b82f6"/>
-          <text x="154" y="17" text-anchor="middle" fill="#93c5fd" font-size="9.5" font-weight="700">5,7</text>
-          <text x="154" y="60" text-anchor="middle" fill="#475569" font-size="8.5">Q3 &#8217;26</text>
-
-          <!-- Q4 2026 · placeholder -->
-          <circle cx="248" cy="46" r="3.5" fill="none" stroke="#253348" stroke-width="1.5"/>
-          <text x="248" y="60" text-anchor="middle" fill="#334155" font-size="8.5">Q4 &#8217;26</text>
-
-          <!-- Q1 2027 · placeholder -->
-          <circle cx="342" cy="46" r="3.5" fill="none" stroke="#253348" stroke-width="1.5"/>
-          <text x="342" y="60" text-anchor="middle" fill="#334155" font-size="8.5">Q1 &#8217;27</text>
-        </svg>
-      </div>
-    </div>
     </div>
   </div>
 
   <div class="h-score">
-    <div class="ring">
+    <div class="score-history">
+      <div class="sh-title">Vývoj indexu · kvartálně</div>
+      <svg class="sh-svg" viewBox="0 0 170 58" xmlns="http://www.w3.org/2000/svg">
+        <!-- baseline -->
+        <line x1="8" y1="40" x2="162" y2="40" stroke="#1e3a5f" stroke-width="1"/>
+
+        <!-- Q2 2026 = 5,8 → y = 40-(5.8-4)*9.17 = 40-16.5 = 23.5 ≈ 24 -->
+        <line x1="28" y1="40" x2="28" y2="24" stroke="rgba(59,130,246,.2)" stroke-width="1"/>
+        <circle cx="28" cy="24" r="4.5" fill="#3b82f6"/>
+        <text x="28" y="17" text-anchor="middle" fill="#93c5fd" font-size="8.5" font-weight="700">5,8</text>
+        <text x="28" y="52" text-anchor="middle" fill="#475569" font-size="7.5">Q2&#8217;26</text>
+
+        <!-- linka Q2→Q3 -->
+        <line x1="32.5" y1="24" x2="71.5" y2="25" stroke="rgba(59,130,246,.55)" stroke-width="1.5"/>
+
+        <!-- Q3 2026 = 5,7 → y = 40-(5.7-4)*9.17 = 40-15.6 = 24.4 ≈ 25 -->
+        <line x1="76" y1="40" x2="76" y2="25" stroke="rgba(59,130,246,.2)" stroke-width="1"/>
+        <circle cx="76" cy="25" r="4.5" fill="#3b82f6"/>
+        <text x="76" y="18" text-anchor="middle" fill="#93c5fd" font-size="8.5" font-weight="700">5,7</text>
+        <text x="76" y="52" text-anchor="middle" fill="#475569" font-size="7.5">Q3&#8217;26</text>
+
+        <!-- Q4 2026 placeholder -->
+        <circle cx="118" cy="40" r="3" fill="none" stroke="#253348" stroke-width="1.5"/>
+        <text x="118" y="52" text-anchor="middle" fill="#334155" font-size="7.5">Q4&#8217;26</text>
+
+        <!-- Q1 2027 placeholder -->
+        <circle cx="156" cy="40" r="3" fill="none" stroke="#253348" stroke-width="1.5"/>
+        <text x="156" y="52" text-anchor="middle" fill="#334155" font-size="7.5">Q1&#8217;27</text>
+      </svg>
+    </div>
+    <div class="h-score-ring">
+      <div class="ring">
       <svg viewBox="0 0 130 130">
         <circle cx="65" cy="65" r="54" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="8"/>
         <!-- 5.7/10 × 2π×54 = 0.57 × 339.3 = 193.4 -->
