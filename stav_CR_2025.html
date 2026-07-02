@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stav České republiky 2025 — Hodina ročně pro Česko</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --g: #16a34a; --y: #ca8a04; --r: #dc2626; --u: #9ca3af;
+  --A: #3b82f6; --B: #10b981; --C: #8b5cf6; --D: #22c55e;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: #f1f5f9;
+  color: #0f172a;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+
+/* ── CHANGELOG ── */
+.changelog-wrap {
+  max-width: 1480px; margin: 0 auto 0; padding: 0 56px 32px;
+}
+.changelog-toggle {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: none; border: none; cursor: pointer;
+  color: #64748b; font-size: 12px; font-family: inherit;
+  padding: 0; margin-bottom: 0;
+  transition: color .15s;
+}
+.changelog-toggle:hover { color: #334155; }
+.changelog-toggle svg { transition: transform .2s; }
+.changelog-toggle.open svg { transform: rotate(90deg); }
+.changelog-body {
+  display: none; margin-top: 14px;
+  border-left: 2px solid #e2e8f0; padding-left: 20px;
+}
+.changelog-body.open { display: block; }
+.cl-entry { margin-bottom: 18px; }
+.cl-date {
+  font-size: 11px; font-weight: 700; letter-spacing: .06em;
+  text-transform: uppercase; color: #475569; margin-bottom: 5px;
+}
+.cl-items { list-style: none; padding: 0; margin: 0; }
+.cl-items li {
+  font-size: 12px; color: #64748b; line-height: 1.6;
+  padding-left: 14px; position: relative;
+}
+.cl-items li::before {
+  content: "·"; position: absolute; left: 0; color: #94a3b8;
+}
+
+/* ── HEADER ── */
+.header {
+  background: linear-gradient(160deg, #0f172a 0%, #1e3a5f 100%);
+  color: #fff;
+  padding: 40px 56px 36px;
+  display: flex;
+  gap: 48px;
+  align-items: flex-start;
+}
+.h-left { flex: 1; }
+.h-eyebrow {
+  font-size: 10px; font-weight: 600; letter-spacing: .18em;
+  text-transform: uppercase; color: #93c5fd; margin-bottom: 10px;
+}
+.h-title {
+  font-size: 42px; font-weight: 900; line-height: 1.05;
+  letter-spacing: -.02em; margin-bottom: 6px;
+}
+.h-subtitle { font-size: 14px; color: #94a3b8; margin-bottom: 16px; }
+.report-btn-wrap { margin-bottom: 24px; }
+.report-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(37,99,235,.18); border: 1px solid rgba(59,130,246,.45);
+  border-radius: 8px; padding: 8px 14px;
+  color: #93c5fd; font-size: 12px; font-weight: 600;
+  text-decoration: none; letter-spacing: .01em;
+  transition: background .18s, border-color .18s;
+}
+.report-btn:hover {
+  background: rgba(37,99,235,.35); border-color: rgba(99,160,255,.7); color: #bfdbfe;
+}
+.report-btn svg { flex-shrink: 0; }
+
+
+.layer-keys { display: flex; gap: 16px; margin-bottom: 14px; }
+.lk { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #94a3b8; }
+.lk-sq { width: 10px; height: 10px; border-radius: 2px; }
+
+.pills { display: flex; flex-wrap: wrap; gap: 7px; }
+.pill {
+  display: flex; align-items: center; gap: 5px;
+  background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12);
+  border-radius: 999px; padding: 4px 10px 4px 7px;
+  font-size: 11px; font-weight: 500; color: #e2e8f0;
+}
+.pill-dot { width: 7px; height: 7px; border-radius: 50%; }
+.pill-score { font-weight: 700; font-size: 12px; margin-left: 3px; }
+
+/* Score ring */
+.h-score { display: flex; flex-direction: column; align-items: center; gap: 10px; flex-shrink: 0; }
+.ring { position: relative; width: 130px; height: 130px; }
+.ring svg { width: 130px; height: 130px; transform: rotate(-90deg); }
+.ring-text { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.ring-num { font-size: 36px; font-weight: 900; color: #fff; line-height: 1; }
+.ring-den { font-size: 13px; color: #64748b; }
+.ring-label { font-size: 11px; color: #64748b; text-align: center; line-height: 1.4; }
+.summary-stats { display: flex; gap: 20px; }
+.stat { text-align: center; }
+.stat-label { font-size: 9px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: #475569; margin-bottom: 2px; }
+.stat-num { font-size: 22px; font-weight: 800; }
+
+/* ── LEGEND BAR ── */
+.legend-bar {
+  background: #1e293b; padding: 10px 56px;
+  display: flex; align-items: center; gap: 24px;
+  border-top: 1px solid rgba(255,255,255,.06);
+}
+.leg { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #94a3b8; }
+.leg-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+/* ── MAIN ── */
+.main { padding: 28px 40px 40px; }
+
+/* ── LAYER ── */
+.layer { margin-bottom: 28px; }
+.layer-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.layer-badge {
+  font-size: 9px; font-weight: 800; letter-spacing: .2em;
+  text-transform: uppercase; color: #fff; padding: 3px 9px; border-radius: 5px;
+}
+.layer-name-text { font-size: 17px; font-weight: 700; color: #1e293b; }
+.layer-desc-text { font-size: 12px; color: #64748b; }
+
+/* ── GRIDS ── */
+.grid4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; }
+.grid3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+.grid2 { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; }
+
+/* ── CARD ── */
+.card {
+  background: #fff; border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0,0,0,.06), 0 3px 10px rgba(0,0,0,.04);
+  overflow: hidden;
+}
+.card-top { height: 3px; }
+.card-head {
+  padding: 14px 16px 12px; display: flex;
+  align-items: flex-start; justify-content: space-between;
+  gap: 8px; border-bottom: 1px solid #f1f5f9;
+}
+.card-num { font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #94a3b8; margin-bottom: 1px; }
+.card-title { font-size: 14px; font-weight: 700; color: #0f172a; line-height: 1.2; }
+.card-score-box { display: flex; flex-direction: column; align-items: flex-end; flex-shrink: 0; }
+.card-score-num { font-size: 26px; font-weight: 900; line-height: 1; }
+.card-score-sub { font-size: 10px; color: #94a3b8; font-weight: 500; }
+.card-icon { width: 32px; height: 32px; opacity: 0.18; flex-shrink: 0; margin-right: 2px; }
+.card-meta-row { display: flex; align-items: center; gap: 8px; }
+
+/* ── INDICATORS ── */
+.ind {
+  display: grid;
+  grid-template-columns: 8px 1fr auto auto 16px;
+  align-items: center; gap: 0 8px;
+  padding: 8px 16px; border-bottom: 1px solid #f8fafc;
+}
+.ind:last-child { border-bottom: none; }
+.ind-dot { width: 8px; height: 8px; border-radius: 50%; }
+.ind-name { font-size: 11.5px; color: #374151; line-height: 1.3; }
+.ind-value { font-size: 11.5px; font-weight: 600; color: #0f172a; text-align: right; white-space: nowrap; }
+.ind-year { font-size: 10px; color: #9ca3af; white-space: nowrap; text-align: right; }
+.ind-trend { font-size: 13px; text-align: center; }
+.t-up { color: #16a34a; } .t-dn { color: #dc2626; }
+.t-st { color: #94a3b8; } .t-uk { color: #d1d5db; }
+.ind-missing .ind-name,
+.ind-missing .ind-value { color: #cbd5e1; font-style: italic; }
+
+/* ── CARD SOURCES ── */
+.card-sources {
+  padding: 7px 16px 9px;
+  border-top: 1px solid #f1f5f9;
+  font-size: 10px;
+  color: #94a3b8;
+  line-height: 1.5;
+}
+.card-sources strong { color: #cbd5e1; font-weight: 600; }
+.card-sources a { color: #94a3b8; text-decoration: underline; text-decoration-style: dotted; text-underline-offset: 2px; }
+.card-sources a:hover { color: #64748b; }
+
+/* ── FOOTER ── */
+.footer {
+  margin: 0 40px; padding: 16px 0;
+  border-top: 1px solid #e2e8f0;
+  font-size: 10px; color: #94a3b8; line-height: 1.6;
+}
+
+/* ── Trend + EU badges na kartách ──────────────────────────────── */
+.card-meta-footer {
+  display: flex; gap: 7px; padding: 5px 14px 3px; flex-wrap: wrap;
+  border-top: 1px solid #f1f5f9; margin-bottom: 4px;
+}
+.trend-badge {
+  font-size: 10.5px; font-weight: 600; padding: 2px 9px; border-radius: 20px;
+  display: inline-flex; align-items: center; gap: 3px;
+}
+.trend-up { background:#dcfce7; color:#15803d; }
+.trend-dn { background:#fee2e2; color:#b91c1c; }
+.trend-st { background:#f1f5f9; color:#475569; }
+.eu-badge {
+  font-size: 10.5px; color:#475569; background:#f8fafc;
+  padding: 2px 9px; border-radius: 20px; border: 1px solid #e2e8f0;
+}
+
+/* ── Rozšířená legenda ──────────────────────────────────────────── */
+.legend-extended {
+  background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px;
+  padding:14px 18px 12px; margin-bottom:6px;
+}
+.legend-extended-title {
+  font-size:11px; font-weight:700; color:#1e3a5f; letter-spacing:.05em;
+  text-transform:uppercase; margin-bottom:10px;
+}
+.legend-extended-grid {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:10px;
+}
+.leg-ext-item {
+  display:flex; gap:8px; align-items:flex-start;
+  font-size:11.5px; line-height:1.5; color:#334155;
+}
+.leg-ext-dot {
+  width:10px; height:10px; border-radius:50%; margin-top:3px; flex-shrink:0;
+}
+.legend-extended-note {
+  font-size:10.5px; color:#64748b; line-height:1.55;
+  border-top:1px solid #e2e8f0; padding-top:8px;
+}
+@media(max-width:700px){.legend-extended-grid{grid-template-columns:1fr;}}
+
+/* ── MOBILE ── */
+@media(max-width:700px){
+  .header {
+    flex-direction: column; gap: 24px;
+    padding: 24px 20px 20px;
+  }
+  .h-title { font-size: 28px; }
+  .h-subtitle { font-size: 12px; }
+  .score-history { display: none; }
+  .h-score { flex-direction: row; align-items: center; gap: 20px; }
+  .ring { width: 90px; height: 90px; }
+  .ring svg { width: 90px; height: 90px; }
+  .ring-num { font-size: 26px; }
+  .ring-label { text-align: left; }
+  .summary-stats { gap: 14px; }
+  .stat-num { font-size: 18px; }
+
+  .legend-bar {
+    padding: 10px 20px; gap: 12px; flex-wrap: wrap;
+  }
+  .leg:last-child { display: none; } /* trend arrow legend, zkrátí legendu */
+
+  .main { padding: 16px 12px 32px; }
+
+  .grid4, .grid3, .grid2 {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .changelog-wrap { padding: 0 20px 24px; }
+
+  .pills { gap: 5px; }
+  .pill { font-size: 10px; padding: 3px 8px 3px 5px; }
+
+  .layer-keys { gap: 10px; flex-wrap: wrap; }
+
+  .legend-extended { padding: 12px 14px 10px; }
+  .legend-extended-note { font-size: 10px; }
+}
+
+/* ── COLLAPSIBLE INDICATORS ── */
+.ind-hidden { display: none; }
+.ind-toggle {
+  display: flex; align-items: center; justify-content: center;
+  gap: 5px; width: 100%;
+  background: none; border: none; border-top: 1px solid #f1f5f9;
+  color: #64748b; font-size: 11px; font-family: inherit;
+  padding: 8px 16px; cursor: pointer;
+  transition: background .15s, color .15s;
+}
+.ind-toggle:hover { background: #f8fafc; color: #334155; }
+.ind-toggle svg { transition: transform .2s; flex-shrink: 0; }
+.ind-toggle.open svg { transform: rotate(180deg); }
+
+
+
+
+
+.score-history {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-shrink: 0;
+}
+.sh-title {
+  font-size: 8px; font-weight: 600; letter-spacing: .13em;
+  text-transform: uppercase; color: #475569; margin-bottom: 6px; white-space: nowrap;
+}
+.sh-svg { display: block; width: 170px; }
+
+/* ── Score history timeline (nad kruhem v h-score) ─────── */
+
+.sh-title {
+  font-size: 8px; font-weight: 600; letter-spacing: .13em;
+  text-transform: uppercase; color: #64748b; margin-bottom: 6px;
+  white-space: nowrap;
+}
+.sh-svg { display: block; width: 160px; max-width: 100%; }
+
+/* ── Changelog PDF link ─────────────────────── */
+.cl-pdf {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-top: 8px;
+  padding: 4px 10px;
+  background: rgba(37,99,235,.1);
+  border: 1px solid rgba(37,99,235,.25);
+  border-radius: 5px;
+  color: #93c5fd;
+  font-size: 11px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background .15s;
+}
+.cl-pdf:hover { background: rgba(37,99,235,.22); color: #bfdbfe; }
+.cl-pdf svg { flex-shrink: 0; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="h-left">
+    <div class="h-eyebrow">Hodina ročně pro Česko · Výroční přehled</div>
+    <div class="h-title">Stav České<br>republiky 2025</div>
+    <div class="h-subtitle">12 oblastí · 4 vrstvy · data z 30+ zdrojů · aktualizováno červenec 2026</div>
+
+    <div class="report-btn-wrap">
+      <a class="report-btn" href="stav_CR_2025_report.pdf" download>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="12" y1="12" x2="12" y2="18"/>
+          <polyline points="9 15 12 18 15 15"/>
+        </svg>
+        Stáhnout report (PDF, červen 2026)
+      </a>
+    </div>
+
+    <div class="layer-keys">
+      <div class="lk"><div class="lk-sq" style="background:#3b82f6"></div>A — Základ</div>
+      <div class="lk"><div class="lk-sq" style="background:#10b981"></div>B — Lidé</div>
+      <div class="lk"><div class="lk-sq" style="background:#8b5cf6"></div>C — Společnost</div>
+      <div class="lk"><div class="lk-sq" style="background:#22c55e"></div>D — Budoucnost</div>
+    </div>
+
+    <div class="pills">
+      <div class="pill"><div class="pill-dot" style="background:#3b82f6"></div>01 Ekonomika<span class="pill-score" style="color:#16a34a">7.5</span></div>
+      <div class="pill"><div class="pill-dot" style="background:#3b82f6"></div>02 Infrastruktura<span class="pill-score" style="color:#16a34a">8.1</span></div>
+      <div class="pill"><div class="pill-dot" style="background:#3b82f6"></div>03 Bezpečnost<span class="pill-score" style="color:#16a34a">8.6</span></div>
+      <div class="pill"><div class="pill-dot" style="background:#3b82f6"></div>04 Veřejné finance<span class="pill-score" style="color:#dc2626">4.4</span></div>
+      <div class="pill"><div class="pill-dot" style="background:#10b981"></div>05 Fyzické zdraví<span class="pill-score" style="color:#ca8a04">5.0</span></div>
+      <div class="pill"><div class="pill-dot" style="background:#10b981"></div>06 Mentální zdraví<span class="pill-score" style="color:#ca8a04">6.0</span></div>
+      <div class="pill"><div class="pill-dot" style="background:#10b981"></div>07 Vzdělání a kultura<span class="pill-score" style="color:#ca8a04">4.5</span></div>
+      <div class="pill"><div class="pill-dot" style="background:#8b5cf6"></div>08 Demokracie<span class="pill-score" style="color:#16a34a">7.8</span></div>
+      <div class="pill"><div class="pill-dot" style="background:#8b5cf6"></div>09 Rovnost a bydlení<span class="pill-score" style="color:#dc2626">4.0</span></div>
+      <div class="pill"><div class="pill-dot" style="background:#8b5cf6"></div>10 Správa státu<span class="pill-score" style="color:#dc2626">3.4</span></div>
+      <div class="pill"><div class="pill-dot" style="background:#22c55e"></div>11 Inovace<span class="pill-score" style="color:#ca8a04">4.9</span></div>
+      <div class="pill"><div class="pill-dot" style="background:#22c55e"></div>12 Životní prostředí<span class="pill-score" style="color:#ca8a04">4.7</span></div>
+
+    </div>
+  </div>
+
+  <div class="h-score">
+    <div class="score-history">
+      <div class="sh-title">Vývoj indexu · kvartálně</div>
+      <svg class="sh-svg" viewBox="0 0 170 58" xmlns="http://www.w3.org/2000/svg">
+        <!-- baseline -->
+        <line x1="8" y1="40" x2="162" y2="40" stroke="#1e3a5f" stroke-width="1"/>
+
+        <!-- Q2 2026 = 5,8 → y = 40-(5.8-4)*9.17 = 40-16.5 = 23.5 ≈ 24 -->
+        <line x1="28" y1="40" x2="28" y2="24" stroke="rgba(59,130,246,.2)" stroke-width="1"/>
+        <circle cx="28" cy="24" r="4.5" fill="#3b82f6"/>
+        <text x="28" y="17" text-anchor="middle" fill="#93c5fd" font-size="8.5" font-weight="700">5,8</text>
+        <text x="28" y="52" text-anchor="middle" fill="#475569" font-size="7.5">Q2&#8217;26</text>
+
+        <!-- linka Q2→Q3 -->
+        <line x1="32.5" y1="24" x2="71.5" y2="25" stroke="rgba(59,130,246,.55)" stroke-width="1.5"/>
+
+        <!-- Q3 2026 = 5,7 → y = 40-(5.7-4)*9.17 = 40-15.6 = 24.4 ≈ 25 -->
+        <line x1="76" y1="40" x2="76" y2="25" stroke="rgba(59,130,246,.2)" stroke-width="1"/>
+        <circle cx="76" cy="25" r="4.5" fill="#3b82f6"/>
+        <text x="76" y="18" text-anchor="middle" fill="#93c5fd" font-size="8.5" font-weight="700">5,7</text>
+        <text x="76" y="52" text-anchor="middle" fill="#475569" font-size="7.5">Q3&#8217;26</text>
+
+        <!-- Q4 2026 placeholder -->
+        <circle cx="118" cy="40" r="3" fill="none" stroke="#253348" stroke-width="1.5"/>
+        <text x="118" y="52" text-anchor="middle" fill="#334155" font-size="7.5">Q4&#8217;26</text>
+
+        <!-- Q1 2027 placeholder -->
+        <circle cx="156" cy="40" r="3" fill="none" stroke="#253348" stroke-width="1.5"/>
+        <text x="156" y="52" text-anchor="middle" fill="#334155" font-size="7.5">Q1&#8217;27</text>
+      </svg>
+    </div>
+    <div class="ring">
+      <svg viewBox="0 0 130 130">
+        <circle cx="65" cy="65" r="54" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="8"/>
+        <!-- 5.7/10 × 2π×54 = 0.57 × 339.3 = 193.4 -->
+        <circle cx="65" cy="65" r="54" fill="none" stroke="#3b82f6" stroke-width="8"
+                stroke-dasharray="193.4 339.3" stroke-linecap="round"/>
+      </svg>
+      <div class="ring-text">
+        <div class="ring-num">5.7</div>
+        <div class="ring-den">/ 10</div>
+      </div>
+    </div>
+    <div class="ring-label">Celkové skóre ČR<br>průměr 12 oblastí</div>
+    <div class="summary-stats">
+      <div class="stat">
+        <div class="stat-label">Silné</div>
+        <div class="stat-num" style="color:#16a34a">4</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Průměrné</div>
+        <div class="stat-num" style="color:#ca8a04">5</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Slabé</div>
+        <div class="stat-num" style="color:#dc2626">3</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LEGEND -->
+<div class="legend-bar">
+  <div class="leg"><div class="leg-dot" style="background:#16a34a"></div>Silná (≥ 7.0)</div>
+  <div class="leg"><div class="leg-dot" style="background:#ca8a04"></div>Průměrné (4.5–6.9)</div>
+  <div class="leg"><div class="leg-dot" style="background:#dc2626"></div>Slabina (&lt; 4.5)</div>
+  <div class="leg"><div class="leg-dot" style="background:#d1d5db"></div>Data chybí</div>
+  <div class="leg" style="margin-left:auto">↑ zlepšuje se · → stabilní · ↓ zhoršuje se</div>
+</div>
+<div class="main" style="padding-top:10px">
+<div class="legend-extended">
+  <div class="legend-extended-title">Co znamenají barvy — kritéria hodnocení</div>
+  <div class="legend-extended-grid">
+    <div class="leg-ext-item">
+      <div class="leg-ext-dot" style="background:#16a34a"></div>
+      <div><strong>🟢 Silné</strong> — ČR splňuje nebo překračuje referenční hodnotu: průměr EU-27, mezinárodní cíl (NATO, WHO, OECD) nebo best practice. Referenční bod je uveden přímo u indikátoru.</div>
+    </div>
+    <div class="leg-ext-item">
+      <div class="leg-ext-dot" style="background:#ca8a04"></div>
+      <div><strong>🟡 Průměrné</strong> — ČR se pohybuje kolem průměru EU nebo cíl částečně plní. Situace je přijatelná, ale bez zlepšení hrozí přesun do červeného pásma.</div>
+    </div>
+    <div class="leg-ext-item">
+      <div class="leg-ext-dot" style="background:#dc2626"></div>
+      <div><strong>🔴 Slabé</strong> — ČR za referenčním bodem výrazně zaostává, nesplňuje cíl nebo má záporný trend. Vyžaduje aktivní politickou pozornost.</div>
+    </div>
+  </div>
+  <div class="legend-extended-note">
+    <strong>EU srovnání:</strong> Primárním referenčním rámcem je EU-27. U globálních indexů (EIU, RSF, IEP…) je uvedeno pořadí v rámci EU i ve světě.
+    &nbsp;·&nbsp; <strong>Trend:</strong> Šipky ↑ ↓ → u každého indikátoru označují vývoj za ~5 let. Štítek „Trend 10 let" u každé oblasti shrnuje celkový směr od roku 2015.
+    &nbsp;·&nbsp; <strong>Omezení:</strong> Všechny oblasti i indikátory mají stejnou váhu. Longitudinální data jsou orientační — přesné srovnání závisí na dostupnosti časových řad.
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ A — ZÁKLAD ═══════════════════════════════ -->
+<div class="layer">
+  <div class="layer-head">
+    <div class="layer-badge" style="background:#3b82f6">A</div>
+    <div class="layer-name-text">Základ</div>
+    <div class="layer-desc-text">— systémové předpoklady, na nichž vše ostatní stojí</div>
+  </div>
+  <div class="grid4">
+
+    <!-- 01 EKONOMIKA -->
+    <div class="card">
+      <div class="card-top" style="background:#3b82f6"></div>
+      <div class="card-head">
+        <div class="card-meta-row">
+          <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+          <div><div class="card-num">Oblast 01</div><div class="card-title">Ekonomika</div></div>
+        </div>
+        <div class="card-score-box"><div class="card-score-num" style="color:#16a34a">7.5</div><div class="card-score-sub">/ 10</div></div>
+      </div>
+      <div class="card-meta-footer">
+        <span class="trend-badge trend-st">→ Trend 10 let: smíšené</span>
+        <span class="eu-badge">EU: 91 % HDP/hlavu průměru EU · 1. v nezaměstnanosti</span>
+      </div>
+      <div class="ind"><div class="ind-dot" style="background:#16a34a"></div><div class="ind-name">Reálný růst HDP</div><div class="ind-value">+2,6 % (2024: +1,0 %)</div><div class="ind-year">2025</div><div class="ind-trend t-up">↑</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#ca8a04"></div><div class="ind-name">HDP na hlavu — % průměru EU (15. místo)</div><div class="ind-value">91 %</div><div class="ind-year">2024</div><div class="ind-trend t-st">→</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#16a34a"></div><div class="ind-name">Inflace — cíl ČNB 2 %</div><div class="ind-value">2,1 %</div><div class="ind-year">2026</div><div class="ind-trend t-up">↑</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#16a34a"></div><div class="ind-name">Průměrná mzda</div><div class="ind-value">49 215 Kč</div><div class="ind-year">2025</div><div class="ind-trend t-up">↑</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#ca8a04"></div><div class="ind-name">Míra nezaměstnanosti — roste, stále mezi nejnižšími v EU</div><div class="ind-value">3,2 %</div><div class="ind-year">2026</div><div class="ind-trend t-dn">↓</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Produktivita práce — % průměru EU</div><div class="ind-value">~70 %</div><div class="ind-year">2023</div><div class="ind-trend t-st">→</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#ca8a04"></div><div class="ind-name">Mladí bez práce ani vzdělání (15–29 let)</div><div class="ind-value">~8 %</div><div class="ind-year">2023</div><div class="ind-trend t-st">→</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#ca8a04"></div><div class="ind-name">Podíl hodnoty, která zůstane v zemi</div><div class="ind-value">99 %</div><div class="ind-year">2025</div><div class="ind-trend t-up">↑</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#ca8a04"></div><div class="ind-name">Saldo veřejných financí</div><div class="ind-value">−1,9 % HDP</div><div class="ind-year">2025</div><div class="ind-trend t-up">↑</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#ca8a04"></div><div class="ind-name">Strukturální saldo — cíl −1 % HDP do 2028</div><div class="ind-value">~−2,0 % HDP</div><div class="ind-year">2024</div><div class="ind-trend t-up">↑</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#ca8a04"></div><div class="ind-name">Veřejný dluh</div><div class="ind-value">~44,2 % HDP</div><div class="ind-year">2025</div><div class="ind-trend t-dn">↓</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Dluhová brzda 55 % HDP — hrozí prolomení v 2037</div><div class="ind-value">hrozí 2037</div><div class="ind-year">2025</div><div class="ind-trend t-dn">↓</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#ca8a04"></div><div class="ind-name">Celková prosperita — pořadí v EU</div><div class="ind-value">14. místo</div><div class="ind-year">2026</div><div class="ind-trend t-up">↑</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Závislost exportu na Německu — 32 % vývozu</div><div class="ind-value">32 % exportu</div><div class="ind-year">2024</div><div class="ind-trend t-st">→</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Závislost průmyslu na automobilech — čtvrtina exportu</div><div class="ind-value">~25 % exportu</div><div class="ind-year">2024</div><div class="ind-trend t-dn">↓</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Disponibilní příjmy domácností — pod průměrem OECD o 13 %</div><div class="ind-value">USD 26 664 vs. OECD USD 30 490</div><div class="ind-year">2022</div><div class="ind-trend t-up">↑</div></div>
+      <div class="card-sources"><strong>Zdroje:</strong> <a href="https://ec.europa.eu/eurostat" target="_blank">Eurostat</a> · <a href="https://www.czso.cz" target="_blank">ČSÚ</a> · <a href="https://www.mfcr.cz" target="_blank">MF ČR</a> · <a href="https://www.rozpoctovarada.cz/publikace/zprava-nrr-o-dlouhodobe-udrzitelnosti-verejnych-financi-2025/" target="_blank">NRR — Zpráva 2025</a> · <a href="https://www.cnb.cz/cs/menova-politika/prognoza/" target="_blank">ČNB Prognóza</a> · <a href="https://www.indexprosperity.cz/2026/index-prosperity-ceska-2025/" target="_blank">Index prosperity 2025</a> · <a href="https://www.oecd.org/en/publications/how-s-life-2024_90ba854a-en.html" target="_blank">OECD How's Life? 2024</a> · <a href="https://www.megatrendy.cz/" target="_blank">Megatrendy.cz — Karty 5 Demografie &amp; 6 Zdraví</a></div>
+    </div>
+
+    <!-- 02 INFRASTRUKTURA -->
+    <div class="card">
+      <div class="card-top" style="background:#3b82f6"></div>
+      <div class="card-head">
+        <div class="card-meta-row">
+          <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="1"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+          <div><div class="card-num">Oblast 02</div><div class="card-title">Infrastruktura</div></div>
+        </div>
+        <div class="card-score-box"><div class="card-score-num" style="color:#16a34a">8.1</div><div class="card-score-sub">/ 10</div></div>
+      </div>
+      <div class="card-meta-footer">
+        <span class="trend-badge trend-up">↑ Trend 10 let: zlepšení</span>
+        <span class="eu-badge">EU: internet nadprůměr · vysokorychlostní železnice: chybí</span>
+      </div>
+      <div class="ind"><div class="ind-dot" style="background:#ca8a04"></div><div class="ind-name">Délka dálniční sítě</div><div class="ind-value">~1 543 km</div><div class="ind-year">2025</div><div class="ind-trend t-up">↑</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Elektrifikace železnic</div><div class="ind-value">~35 %</div><div class="ind-year">2024</div><div class="ind-trend t-st">→</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Vysokorychlostní železnice — výstavba prvního úseku (Brno–Přerov) zahájena v 2026</div><div class="ind-value">0 km v provozu</div><div class="ind-year">2026</div><div class="ind-trend t-st">→</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#16a34a"></div><div class="ind-name">Spolehlivost elektrické sítě</div><div class="ind-value">~22 min/rok</div><div class="ind-year">2023</div><div class="ind-trend t-up">↑</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#16a34a"></div><div class="ind-name">Podíl jaderné energie na výrobě elektřiny</div><div class="ind-value">42,5 %</div><div class="ind-year">2025</div><div class="ind-trend t-up">↑</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#16a34a"></div><div class="ind-name">Energetická závislost na dovozu</div><div class="ind-value">39,5 %</div><div class="ind-year">2024</div><div class="ind-trend t-st">→</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#16a34a"></div><div class="ind-name">Pokrytí rychlým internetem</div><div class="ind-value">84 % dom.</div><div class="ind-year">2024</div><div class="ind-trend t-up">↑</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#16a34a"></div><div class="ind-name">Pokrytí mobilní sítí 5G</div><div class="ind-value">74 %</div><div class="ind-year">2024</div><div class="ind-trend t-up">↑</div></div>
+      <div class="card-sources"><strong>Zdroje:</strong> <a href="https://www.rsd.cz" target="_blank">ŘSD</a> · <a href="https://www.spravazeleznic.cz" target="_blank">Správa železnic</a> · <a href="https://www.eru.cz" target="_blank">ERÚ / SAIDI</a> · <a href="https://www.cez.cz" target="_blank">ČEZ — jaderná výroba</a> · <a href="https://ec.europa.eu/eurostat/web/energy" target="_blank">Eurostat / Energie</a> · <a href="https://digital-strategy.ec.europa.eu/en/policies/desi" target="_blank">DESI 2024</a></div>
+    </div>
+
+    <!-- 03 BEZPEČNOST -->
+    <div class="card">
+      <div class="card-top" style="background:#3b82f6"></div>
+      <div class="card-head">
+        <div class="card-meta-row">
+          <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          <div><div class="card-num">Oblast 03</div><div class="card-title">Bezpečnost</div></div>
+        </div>
+        <div class="card-score-box"><div class="card-score-num" style="color:#16a34a">8.6</div><div class="card-score-sub">/ 10</div></div>
+      </div>
+      <div class="card-meta-footer">
+        <span class="trend-badge trend-up">↑ Trend 10 let: zlepšení</span>
+        <span class="eu-badge">EU: top 3 v bezpečnosti · světově: 1. v kybernetice</span>
+      </div>
+      <div class="ind"><div class="ind-dot" style="background:#16a34a"></div><div class="ind-name">Globální index míru — 13. na světě, dlouhodobě klesající trend</div><div class="ind-value">13. místo</div><div class="ind-year">2026</div><div class="ind-trend t-dn">↓</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#ca8a04"></div><div class="ind-name">Výdaje na obranu — ČR 2,06 % HDP, NATO uznává jen 1,78 % (spor o metodiku)</div><div class="ind-value">2,06 % HDP</div><div class="ind-year">2026</div><div class="ind-trend t-st">→</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#16a34a"></div><div class="ind-name">Kybernetická bezpečnost — 1. místo na světě</div><div class="ind-value">1. místo</div><div class="ind-year">2024</div><div class="ind-trend t-up">↑</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#16a34a"></div><div class="ind-name">Rychlost soudního řízení — 2. v EU</div><div class="ind-value">2. místo</div><div class="ind-year">2025</div><div class="ind-trend t-up">↑</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#16a34a"></div><div class="ind-name">Vražednost</div><div class="ind-value">0,7 / 100 000</div><div class="ind-year">2022</div><div class="ind-trend t-st">→</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#16a34a"></div><div class="ind-name">Trestná činnost — pokles pokračuje</div><div class="ind-value">170 051</div><div class="ind-year">2025</div><div class="ind-trend t-up">↑</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#16a34a"></div><div class="ind-name">Objasněnost trestných činů</div><div class="ind-value">45,2 %</div><div class="ind-year">2025</div><div class="ind-trend t-up">↑</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#16a34a"></div><div class="ind-name">Důvěra v policii (CVVM změnil metodiku 2026, čísla nesrovnatelná s dřívějšími)</div><div class="ind-value">70 %</div><div class="ind-year">2026</div><div class="ind-trend t-dn">↓</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#16a34a"></div><div class="ind-name">Důvěra v armádu (CVVM změnil metodiku 2026, čísla nesrovnatelná s dřívějšími)</div><div class="ind-value">71 %</div><div class="ind-year">2026</div><div class="ind-trend t-up">↑</div></div>
+      <div class="card-sources"><strong>Zdroje:</strong> <a href="https://www.visionofhumanity.org/maps/#/" target="_blank">IEP / GPI</a> · <a href="https://ncsi.ega.ee/ncsi-index/" target="_blank">NCSI</a> · <a href="https://www.nukib.gov.cz" target="_blank">NÚKIB</a> · <a href="https://commission.europa.eu/strategy-and-policy/policies/justice-and-fundamental-rights/upholding-rule-law/eu-justice-scoreboard_en" target="_blank">EU Justice Scoreboard</a> · <a href="https://mocr.mo.gov.cz/informacni-servis/zpravodajstvi/vydaje-na-obranu-poprve-presahnou-hranici-dvou-procent-hdp-246635/" target="_blank">MO ČR — Obranné výdaje 2024/2025</a> · <a href="https://www.unodc.org/unodc/en/data-and-analysis/homicide.html" target="_blank">UNODC</a> · <a href="https://www.policie.cz/statistiky-kriminality.aspx" target="_blank">Policie ČR</a> · <a href="https://cvvm.soc.cas.cz" target="_blank">CVVM</a></div>
+    </div>
+
+    <!-- 04 VEŘEJNÉ FINANCE -->
+    <div class="card">
+      <div class="card-top" style="background:#3b82f6"></div>
+      <div class="card-head">
+        <div class="card-meta-row">
+          <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/><line x1="6" y1="15" x2="10" y2="15"/></svg>
+          <div><div class="card-num">Oblast 04</div><div class="card-title">Veřejné finance</div></div>
+        </div>
+        <div class="card-score-box"><div class="card-score-num" style="color:#dc2626">4.4</div><div class="card-score-sub">/ 10</div></div>
+      </div>
+      <div class="card-meta-footer">
+        <span class="trend-badge trend-dn">↓ Trend 10 let: zhoršení</span>
+        <span class="eu-badge">EU: 9. nejnižší dluh · penzijní schodek nad průměrem EU</span>
+      </div>
+      <div class="ind"><div class="ind-dot" style="background:#16a34a"></div><div class="ind-name">Veřejný dluh — 9. nejnižší v EU, ale roste</div><div class="ind-value">44,2 % HDP</div><div class="ind-year">2025</div><div class="ind-trend t-dn">↓</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#ca8a04"></div><div class="ind-name">Saldo veřejných financí</div><div class="ind-value">−1,9 % HDP</div><div class="ind-year">2025</div><div class="ind-trend t-up">↑</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#ca8a04"></div><div class="ind-name">Strukturální saldo — zákonný cíl −1 % HDP</div><div class="ind-value">~−2,0 % HDP</div><div class="ind-year">2024</div><div class="ind-trend t-up">↑</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#ca8a04"></div><div class="ind-name">Dopady penzijní reformy 2024 na průběžný systém</div><div class="ind-value">~−2 pp HDP (proj.)</div><div class="ind-year">2025</div><div class="ind-trend t-up">↑</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#ca8a04"></div><div class="ind-name">Průběžný penzijní systém — dočasně téměř vyrovnaný díky silnému trhu práce, dlouhodobý výhled zůstává problematický</div><div class="ind-value">~+20 mld. Kč (odhad)</div><div class="ind-year">2025</div><div class="ind-trend t-up">↑</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Zdravotní pojišťovny — deficit se prohlubuje, VZP riziko vyčerpání rezerv do 2028</div><div class="ind-value">VZP −7,7 mld. Kč</div><div class="ind-year">2026</div><div class="ind-trend t-dn">↓</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Dluhová brzda 55 % HDP — prolomení hrozí v 2037</div><div class="ind-value">hrozí 2037</div><div class="ind-year">proj.</div><div class="ind-trend t-dn">↓</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Penzijní spoření — výnos pod inflací</div><div class="ind-value">záporná (pod inflací)</div><div class="ind-year">2024</div><div class="ind-trend t-st">→</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Závislost veřejných investic na EU fondech — po 2027 hrozí výpadek</div><div class="ind-value">~35 % veřej. inv.</div><div class="ind-year">2024</div><div class="ind-trend t-dn">↓</div></div>
+      <div class="card-sources"><strong>Zdroje:</strong> <a href="https://ec.europa.eu/eurostat" target="_blank">Eurostat EDP</a> · <a href="https://mf.gov.cz/en/fiscal-policy/macroeconomic-analysis/fiscal-forecast-and-fiscal-outlook/2025/fiscal-outlook-of-the-czech-republic-november-2025-61880" target="_blank">MF ČR Fiskální výhled 11/2025</a> · <a href="https://www.rozpoctovarada.cz/en/publikace/report-on-the-long-term-sustainability-of-public-finances-2025/" target="_blank">NRR — Zpráva o dl. udržitelnosti 2025</a> · <a href="https://idea.cerge-ei.cz/documents/IDEA_PB_Pensions_Summary_1030.pdf" target="_blank">IDEA CERGE-EI — Penzijní trilemma 9/2025</a> · <a href="https://idea.cerge-ei.cz/files/IDEA_Studie_01_2026_Penzijni_fondy_0106.pdf" target="_blank">IDEA — Penzijní fondy 2026</a> · <a href="https://www.mpsv.cz" target="_blank">MPSV</a></div>
+    </div>
+
+
+  </div><!-- /grid4 -->
+</div>
+
+<!-- ═══════════════════════════════ B — LIDÉ ═══════════════════════════════ -->
+<div class="layer">
+  <div class="layer-head">
+    <div class="layer-badge" style="background:#10b981">B</div>
+    <div class="layer-name-text">Lidé</div>
+    <div class="layer-desc-text">— individuální prosperita a rozvoj</div>
+  </div>
+  <div class="grid3">
+
+    <!-- 05 FYZICKÉ ZDRAVÍ -->
+    <div class="card">
+      <div class="card-top" style="background:#10b981"></div>
+      <div class="card-head">
+        <div class="card-meta-row">
+          <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <div><div class="card-num">Oblast 05</div><div class="card-title">Fyzické zdraví</div></div>
+        </div>
+        <div class="card-score-box"><div class="card-score-num" style="color:#ca8a04">5.0</div><div class="card-score-sub">/ 10</div></div>
+      </div>
+      <div class="card-meta-footer">
+        <span class="trend-badge trend-st">→ Trend 10 let: smíšené</span>
+        <span class="eu-badge">EU: 15. délka zdravého života · čekací doby: pod průměrem</span>
+      </div>
+      <div class="ind"><div class="ind-dot" style="background:#16a34a"></div><div class="ind-name">Kojenecká úmrtnost</div><div class="ind-value">2,1 / 1 000</div><div class="ind-year">2023</div><div class="ind-trend t-up">↑</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#16a34a"></div><div class="ind-name">Nemocniční lůžka na 1 000 obyvatel</div><div class="ind-value">6,4</div><div class="ind-year">2024</div><div class="ind-trend t-st">→</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#16a34a"></div><div class="ind-name">Střední délka života — muži / ženy</div><div class="ind-value">77,2 / 83,1 let</div><div class="ind-year">2024</div><div class="ind-trend t-up">↑</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#ca8a04"></div><div class="ind-name">Délka života ve zdraví — 15. v EU</div><div class="ind-value">62 let</div><div class="ind-year">2025</div><div class="ind-trend t-dn">↓</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#ca8a04"></div><div class="ind-name">Výdaje na zdravotnictví</div><div class="ind-value">8,5 % HDP</div><div class="ind-year">2024</div><div class="ind-trend t-up">↑</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#ca8a04"></div><div class="ind-name">Počet lékařů na 1 000 obyvatel</div><div class="ind-value">4,2</div><div class="ind-year">2024</div><div class="ind-trend t-st">→</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#ca8a04"></div><div class="ind-name">Obezita dospělých</div><div class="ind-value">~20 %</div><div class="ind-year">2022</div><div class="ind-trend t-dn">↓</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#ca8a04"></div><div class="ind-name">Kouření dospělých</div><div class="ind-value">~27 %</div><div class="ind-year">2022</div><div class="ind-trend t-dn">↓</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Porodnost — nové historické minimum</div><div class="ind-value">1,28</div><div class="ind-year">2025</div><div class="ind-trend t-dn">↓</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#ca8a04"></div><div class="ind-name">Podíl seniorů vůči lidem v produktivním věku</div><div class="ind-value">32,3 %</div><div class="ind-year">2024</div><div class="ind-trend t-dn">↓</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Chybějící místa v domovech seniorů do roku 2035</div><div class="ind-value">~28 000</div><div class="ind-year">2025</div><div class="ind-trend t-dn">↓</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Neformální pečovatelé o seniory</div><div class="ind-value">800 000–1 000 000</div><div class="ind-year">2024</div><div class="ind-trend t-up">↑</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Čekací doby ke specialistovi — průměr 2–3 měsíce, psychiatr 6+ měsíců</div><div class="ind-value">2–3 m. / 6+ m.</div><div class="ind-year">2024</div><div class="ind-trend t-dn">↓</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Kapacita péče o děti 0–3 roky — jen 20 % dětí má místo</div><div class="ind-value">~20 % pokrytí</div><div class="ind-year">2024</div><div class="ind-trend t-dn">↓</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Výdaje na dlouhodobou péči o seniory — ČR 0,4 % vs. průměr EU 1,5 % HDP</div><div class="ind-value">0,4 % HDP</div><div class="ind-year">2023</div><div class="ind-trend t-dn">↓</div></div>
+      <div class="card-sources"><strong>Zdroje:</strong> <a href="https://www.czso.cz/csu/czso/zdravotni-stav-a-umrtnost" target="_blank">ČSÚ</a> · <a href="https://ec.europa.eu/eurostat/web/health" target="_blank">Eurostat / Health</a> · <a href="https://www.uzis.cz/index.php?pg=aktuality&aid=8729" target="_blank">ÚZIS — Personální kapacity 2024</a> · <a href="https://www.oecd.org/health/health-data.htm" target="_blank">OECD Health Statistics</a> · <a href="https://www.oecd.org/en/publications/how-s-life-2024_90ba854a-en.html" target="_blank">OECD How's Life? 2024</a> · <a href="https://www.indexprosperity.cz/2026/index-prosperity-ceska-2025/" target="_blank">Index prosperity 2025</a></div>
+    </div>
+
+    <!-- 06 MENTÁLNÍ ZDRAVÍ -->
+    <div class="card">
+      <div class="card-top" style="background:#10b981"></div>
+      <div class="card-head">
+        <div class="card-meta-row">
+          <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+          <div><div class="card-num">Oblast 06</div><div class="card-title">Mentální zdraví a pohoda</div></div>
+        </div>
+        <div class="card-score-box"><div class="card-score-num" style="color:#ca8a04">6.0</div><div class="card-score-sub">/ 10</div></div>
+      </div>
+      <div class="card-meta-footer">
+        <span class="trend-badge trend-dn">↓ Trend 10 let: zhoršení</span>
+        <span class="eu-badge">EU: 20.–25. spokojenost · psychiatrická péče: pod průměrem</span>
+      </div>
+      <div class="ind"><div class="ind-dot" style="background:#16a34a"></div><div class="ind-name">Spokojenost se životem — 20. na světě</div><div class="ind-value">6,82 / 20. m.</div><div class="ind-year">2026</div><div class="ind-trend t-up">↑</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#ca8a04"></div><div class="ind-name">Výskyt deprese a poruch nálady</div><div class="ind-value">5,5 % / 4 %</div><div class="ind-year">2023</div><div class="ind-trend t-dn">↓</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#ca8a04"></div><div class="ind-name">Sebevražednost — přes 1 400 ročně</div><div class="ind-value">13,1 / 100 000</div><div class="ind-year">2023</div><div class="ind-trend t-dn">↓</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Lidé s duševní poruchou bez odborné pomoci</div><div class="ind-value">83 %</div><div class="ind-year">2023</div><div class="ind-trend t-st">→</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Děti se středně těžkou nebo těžkou úzkostí</div><div class="ind-value">30 %</div><div class="ind-year">2023</div><div class="ind-trend t-dn">↓</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#ca8a04"></div><div class="ind-name">Pocit osamělosti — časté</div><div class="ind-value">~18 %</div><div class="ind-year">2023</div><div class="ind-trend t-st">→</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#ca8a04"></div><div class="ind-name">Index sociálního pokroku — dimenze pohody</div><div class="ind-value">28. místo</div><div class="ind-year">2025</div><div class="ind-trend t-st">→</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#16a34a"></div><div class="ind-name">Work-life balance — přepracovaní zaměstnanci (50+ h/týdně): dvakrát lepší než OECD průměr</div><div class="ind-value">5 % vs. OECD 10 %</div><div class="ind-year">2024</div><div class="ind-trend t-st">→</div></div>
+      <div class="card-sources"><strong>Zdroje:</strong> <a href="https://worldhappiness.report" target="_blank">WHR / Gallup</a> · <a href="https://psychiatrie.uzis.cz/cs/psychiatrie-v-datech/psychiatricka-pece-v-cr/indikatory/" target="_blank">ÚZIS / Psychiatrie v datech</a> · <a href="https://www.nudz.cz" target="_blank">NÚDZ — Národní monitoring</a> · <a href="https://www.who.int/data/gho/data/themes/mental-health" target="_blank">WHO</a> · <a href="https://www.eurofound.europa.eu/en/data/european-quality-of-life-survey" target="_blank">Eurofound</a> · <a href="https://www.oecd.org/en/publications/how-s-life-2024_90ba854a-en.html" target="_blank">OECD How's Life? 2024</a> · <a href="https://www.socialprogress.org/social-progress-index" target="_blank">Social Progress Index</a> · <a href="https://www.ceskovdatech.cz/clanek/175-dusevni-zdravi/" target="_blank">Česko v datech — Duševní zdraví</a> · <a href="https://www.ceskovdatech.cz/clanek/180-dusevni-zdravi-deti/" target="_blank">Česko v datech — Duš. zdraví dětí</a> · <a href="https://www.evropavdatech.cz/clanek/115-well-8209-being-dospivajicich/" target="_blank">Evropa v datech — Well-being dospívajících</a> · <a href="https://www.evropavdatech.cz/clanek/111-osamelost/" target="_blank">Evropa v datech — Osamělost</a></div>
+    </div>
+
+    <!-- 07 VZDĚLÁVÁNÍ -->
+    <div class="card">
+      <div class="card-top" style="background:#10b981"></div>
+      <div class="card-head">
+        <div class="card-meta-row">
+          <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          <div><div class="card-num">Oblast 07</div><div class="card-title">Vzdělání a kultura</div></div>
+        </div>
+        <div class="card-score-box"><div class="card-score-num" style="color:#ca8a04">4.5</div><div class="card-score-sub">/ 10</div></div>
+      </div>
+      <div class="card-meta-footer">
+        <span class="trend-badge trend-dn">↓ Trend 10 let: zhoršení</span>
+        <span class="eu-badge">EU: výdaje na vzdělání pod průměrem · platy učitelů: 24. z 27</span>
+      </div>
+      <div class="ind"><div class="ind-dot" style="background:#ca8a04"></div><div class="ind-name">PISA výsledky v matematice</div><div class="ind-value">493 bodů</div><div class="ind-year">2022</div><div class="ind-trend t-dn">↓</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Vysokoškolsky vzdělaní 25–34 let</div><div class="ind-value">33,5 %</div><div class="ind-year">2024</div><div class="ind-trend t-dn">↓</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Výdaje na vzdělávání — pod průměrem OECD (4,7 %)</div><div class="ind-value">4,2 % HDP</div><div class="ind-year">2025</div><div class="ind-trend t-dn">↓</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Platy učitelů — navzdory navýšení tarifů dál klesají vůči průměrné mzdě</div><div class="ind-value">~102 % prům. mzdy (proj.)</div><div class="ind-year">2026</div><div class="ind-trend t-dn">↓</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Odklady školní docházky — čtyřikrát více než průměr EU</div><div class="ind-value">&gt;20 %</div><div class="ind-year">2025</div><div class="ind-trend t-st">→</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#ca8a04"></div><div class="ind-name">Bez středoškolského vzdělání (25–34 let)</div><div class="ind-value">8 % ↑ (z 7 %)</div><div class="ind-year">2024</div><div class="ind-trend t-dn">↓</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#16a34a"></div><div class="ind-name">Výdaje na kulturu</div><div class="ind-value">1,51 %</div><div class="ind-year">2023</div><div class="ind-trend t-up">↑</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#16a34a"></div><div class="ind-name">Počet knihoven — 1. v EU</div><div class="ind-value">~51</div><div class="ind-year">2023</div><div class="ind-trend t-st">→</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#ca8a04"></div><div class="ind-name">Dobrovolnictví</div><div class="ind-value">~37 %</div><div class="ind-year">2023</div><div class="ind-trend t-st">→</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Dárcovství a charita — spodní třetina světa</div><div class="ind-value">dolní třetina</div><div class="ind-year">2024</div><div class="ind-trend t-up">↑</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Mezigenerační mobilita — vzdělání dítěte závisí na rodičích více než průměr OECD</div><div class="ind-value">14 % mobilita</div><div class="ind-year">2023</div><div class="ind-trend t-dn">↓</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Žáci bez základní gramotnosti v matematice (PISA)</div><div class="ind-value">25 %</div><div class="ind-year">2022</div><div class="ind-trend t-dn">↓</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Mediální gramotnost — ČR nemá jako povinný školní předmět; EU tlačí na systémové zařazení do RVP</div><div class="ind-value">není v RVP</div><div class="ind-year">2025</div><div class="ind-trend t-dn">↓</div></div>
+      <div class="card-sources"><strong>Zdroje:</strong> <a href="https://www.oecd.org/pisa/" target="_blank">OECD PISA</a> · <a href="https://www.oecd.org/en/publications/education-at-a-glance-2025_1a3543e2-en/czechia_9d50d6ac-en.html" target="_blank">OECD EaG 2025 / ČR</a> · <a href="https://www.oecd.org/en/publications/how-s-life-2024_90ba854a-en.html" target="_blank">OECD How's Life? 2024</a> · <a href="https://ec.europa.eu/eurostat/web/education-and-training" target="_blank">Eurostat</a> · <a href="https://msmt.gov.cz" target="_blank">MŠMT</a> · <a href="https://www.eduin.cz/clanky/audit2025-bilance-2025/" target="_blank">EduIn Bilance 2025</a> · <a href="https://idea.cerge-ei.cz/studies/platy-ucitelu-v-roce-2024-a-vyhled-na-horske-draze" target="_blank">IDEA CERGE-EI</a> · <a href="https://csu.gov.cz/vydaje-na-kulturu" target="_blank">ČSÚ — výdaje na kulturu</a> · <a href="https://www.cafonline.org/insights/research/world-giving-index" target="_blank">CAF World Giving Index</a> · <a href="https://mv.gov.cz/clanek/v-cesku-je-na-1-5-milionu-dobrovolniku" target="_blank">MV ČR — dobrovolnictví</a> · <a href="https://www.megatrendy.cz/" target="_blank">Megatrendy.cz — Karta 7 Vzdělávání a uplatnění</a></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ C — SPOLEČNOST ═══════════════════════════════ -->
+<div class="layer">
+  <div class="layer-head">
+    <div class="layer-badge" style="background:#8b5cf6">C</div>
+    <div class="layer-name-text">Společnost</div>
+    <div class="layer-desc-text">— vládnutí, rovnost a soudržnost</div>
+  </div>
+  <div class="grid3">
+
+    <!-- 08 DEMOKRACIE (Layer C) -->
+    <div class="card">
+      <div class="card-top" style="background:#8b5cf6"></div>
+      <div class="card-head">
+        <div class="card-meta-row">
+          <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <div><div class="card-num">Oblast 08</div><div class="card-title">Demokracie, odolnost a právní stát</div></div>
+        </div>
+        <div class="card-score-box"><div class="card-score-num" style="color:#16a34a">7.8</div><div class="card-score-sub">/ 10</div></div>
+      </div>
+      <div class="card-meta-footer">
+        <span class="trend-badge trend-up">↑ Trend 10 let: zlepšení</span>
+        <span class="eu-badge">EU: top 5 v demokracii · svoboda tisku: 1. v regionu CEE</span>
+      </div>
+      <div class="ind"><div class="ind-dot" style="background:#16a34a"></div><div class="ind-name">Index demokracie — 23. na světě</div><div class="ind-value">8,08 / 23. m.</div><div class="ind-year">2024</div><div class="ind-trend t-up">↑</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#16a34a"></div><div class="ind-name">Freedom House — hodnocení svobody</div><div class="ind-value">86 / 100</div><div class="ind-year">2024</div><div class="ind-trend t-st">→</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#ca8a04"></div><div class="ind-name">Index vnímání korupce — 39. z 182 zemí</div><div class="ind-value">59 / 100</div><div class="ind-year">2025</div><div class="ind-trend t-up">↑</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#16a34a"></div><div class="ind-name">Svoboda tisku — 11. na světě, mírný pokles</div><div class="ind-value">11. místo</div><div class="ind-year">2026</div><div class="ind-trend t-dn">↓</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Důvěra v média</div><div class="ind-value">30 %</div><div class="ind-year">2024</div><div class="ind-trend t-st">→</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#16a34a"></div><div class="ind-name">Index právního státu — 20. z 143 zemí</div><div class="ind-value">top 20 světově</div><div class="ind-year">2025</div><div class="ind-trend t-st">→</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Důvěra v neziskové organizace</div><div class="ind-value">32 %</div><div class="ind-year">2024</div><div class="ind-trend t-st">→</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Aktivní dezinformační weby napojené na Kreml</div><div class="ind-value">46</div><div class="ind-year">2024</div><div class="ind-trend t-st">→</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Schopnost rozeznávat dezinformace</div><div class="ind-value">56 %</div><div class="ind-year">2024</div><div class="ind-trend t-dn">↓</div></div>
+      <div class="card-sources"><strong>Zdroje:</strong> <a href="https://www.eiu.com/n/campaigns/democracy-index/" target="_blank">EIU Democracy Index</a> · <a href="https://freedomhouse.org/countries/freedom-world/scores" target="_blank">Freedom House</a> · <a href="https://www.transparency.org/en/cpi/2025" target="_blank">TI CPI 2025</a> · <a href="https://rsf.org/en/index" target="_blank">RSF Press Freedom</a> · <a href="https://worldjusticeproject.org/rule-of-law-index/country/Czech%20Republic" target="_blank">WJP Rule of Law Index</a> · <a href="https://cvvm.soc.cas.cz/cz/tiskove-zpravy/politicke/politicke-ostatni/5870-duvera-k-vybranym-institucim-verejneho-zivota-a-mezilidska-duvera---leto-2024" target="_blank">CVVM — Důvěra v instituce 2024</a> · <a href="https://reutersinstitute.politics.ox.ac.uk/digital-news-report/2024" target="_blank">Reuters Inst. DNR</a> · <a href="https://www.oecd.org/en/publications/how-s-life-2024_90ba854a-en.html" target="_blank">OECD How's Life? 2024</a> · <a href="https://commission.europa.eu/document/download/47ec6130-cb4d-407d-a8aa-481e4fe73eb2_en?filename=12_1_58057_coun_chap_czechia_en.pdf" target="_blank">EU Rule of Law 2024 / ČR</a> · <a href="https://www.ceskovdatech.cz/clanek/176-dezinformace/" target="_blank">Česko v datech — Dezinformace</a> · <a href="https://www.evropavdatech.cz/clanek/118-hybridni-hrozby/" target="_blank">Evropa v datech — Hybridní hrozby</a> · <a href="https://www.megatrendy.cz/" target="_blank">Megatrendy.cz — Karta 15 Demokracie a vládnutí</a></div>
+    </div>
+
+    <!-- 08 ROVNOST, SOUDRŽNOST A BYDLENÍ (sloučení původních oblastí 08 + 09) -->
+    <div class="card">
+      <div class="card-top" style="background:#8b5cf6"></div>
+      <div class="card-head">
+        <div class="card-meta-row">
+          <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M3 9l9-7 9 7" opacity=".5"/></svg>
+          <div><div class="card-num">Oblast 09</div><div class="card-title">Rovnost, soudržnost a bydlení</div></div>
+        </div>
+        <div class="card-score-box"><div class="card-score-num" style="color:#dc2626">4.0</div><div class="card-score-sub">/ 10</div></div>
+      </div>
+      <div class="card-meta-footer">
+        <span class="trend-badge trend-dn">↓ Trend 10 let: zhoršení</span>
+        <span class="eu-badge">EU: GINI 3. nejnižší · dostupnost bydlení: 26. z 27 EU</span>
+      </div>
+      <div class="ind"><div class="ind-dot" style="background:#16a34a"></div><div class="ind-name">Příjmová nerovnost — 3. nejnižší v EU</div><div class="ind-value">0,244</div><div class="ind-year">2023</div><div class="ind-trend t-st">→</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#ca8a04"></div><div class="ind-name">Ohrožení příjmovou chudobou</div><div class="ind-value">10,2 %</div><div class="ind-year">2022</div><div class="ind-trend t-st">→</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Strádající třída — bez ekonomického i sociálního zázemí</div><div class="ind-value">18 %</div><div class="ind-year">2019</div><div class="ind-trend t-uk">?</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Rozdíl v odměňování žen a mužů — 25. místo v EU</div><div class="ind-value">18 %</div><div class="ind-year">2025</div><div class="ind-trend t-dn">↓</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Index rovnosti žen a mužů — 25. z 27 zemí EU (EIGE v 2025 zásadně změnila metodiku, čísla nesrovnatelná s dřívějšími)</div><div class="ind-value">53,2 / 100</div><div class="ind-year">2025</div><div class="ind-trend t-st">→</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#ca8a04"></div><div class="ind-name">Probíhající exekuce — počet klesá díky reformě</div><div class="ind-value">3,16 mil.</div><div class="ind-year">2025</div><div class="ind-trend t-up">↑</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Domácnosti bez finanční rezervy</div><div class="ind-value">33 % (z 20 % v 2021)</div><div class="ind-year">2024</div><div class="ind-trend t-dn">↓</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Mezilidská důvěra</div><div class="ind-value">~25 %</div><div class="ind-year">2024</div><div class="ind-trend t-st">→</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Vzdělávací neúspěšnost — velké regionální rozdíly</div><div class="ind-value">průměr 3 %, max. 10 %</div><div class="ind-year">2024</div><div class="ind-trend t-st">→</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#16a34a"></div><div class="ind-name">Rovnost příležitostí — 19. na světě</div><div class="ind-value">19. místo</div><div class="ind-year">2025</div><div class="ind-trend t-st">→</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Regionální nerovnost — Praha vs. nejslabší kraj</div><div class="ind-value">191 % vs. 62 %</div><div class="ind-year">2023</div><div class="ind-trend t-st">→</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Dostupnost bydlení v ČR — 2. nejhorší v EU</div><div class="ind-value">13,6× mzda</div><div class="ind-year">2025</div><div class="ind-trend t-dn">↓</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Dostupnost bydlení v Praze — 3. nejhorší metropole v Evropě</div><div class="ind-value">15,0× mzda</div><div class="ind-year">2025</div><div class="ind-trend t-dn">↓</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Přetíženost náklady na bydlení</div><div class="ind-value">10 %</div><div class="ind-year">2025</div><div class="ind-trend t-st">→</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#ca8a04"></div><div class="ind-name">Energetická chudoba domácností</div><div class="ind-value">~10 %</div><div class="ind-year">2022</div><div class="ind-trend t-st">→</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#ca8a04"></div><div class="ind-name">Nová výstavba bytů na 1 000 obyvatel</div><div class="ind-value">3,8</div><div class="ind-year">2023</div><div class="ind-trend t-st">→</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Integrace pracovních migrantů — většina Ukrajinců pracuje pod svou kvalifikací</div><div class="ind-value">~60 % pod kvalifikací</div><div class="ind-year">2024</div><div class="ind-trend t-dn">↓</div></div>
+      <div class="card-sources"><strong>Zdroje:</strong> <a href="https://ec.europa.eu/eurostat" target="_blank">Eurostat</a> · <a href="https://www.czso.cz" target="_blank">ČSÚ</a> · <a href="https://eige.europa.eu/gender-equality-index" target="_blank">EIGE</a> · <a href="https://www.mpsv.cz" target="_blank">MPSV / Exekutorská komora</a> · <a href="https://www.paqresearch.cz/post/vzdelavaci-nerovnosti-pretrvavaji-ukazuje-aktualizace-mapy-vzdelavani/" target="_blank">PAQ Research / Mapa vzdělávání 2025</a> · <a href="https://www.europeansocialsurvey.org" target="_blank">ESS / Gallup — mezilidská důvěra</a> · <a href="https://www.oecd.org/en/publications/how-s-life-2024_90ba854a-en.html" target="_blank">OECD How's Life? 2024</a> · <a href="https://www.socialprogress.org/social-progress-index" target="_blank">Social Progress Index 2026</a> · <a href="https://www.indexprosperity.cz/2026/index-prosperity-ceska-2025/" target="_blank">Index prosperity 2025</a> · <a href="https://www.deloitte.com/cz/cs/pages/real-estate/articles/property-index.html" target="_blank">Deloitte Property Index</a> · <a href="https://www.czso.cz/csu/czso/bvz_cr" target="_blank">ČSÚ / bytová výstavba</a> · <a href="https://ec.europa.eu/eurostat/web/housing" target="_blank">Eurostat / Housing</a> · <a href="https://www.evropavdatech.cz/clanek/116-duvera-v-instituce/" target="_blank">Evropa v datech — Důvěra v instituce</a> · <a href="https://www.megatrendy.cz/" target="_blank">Megatrendy.cz — Karty 8 Migrace &amp; 13 Chudoba a nerovnosti</a></div>
+    </div>
+
+    <!-- 10 SPRÁVA STÁTU A DIGITALIZACE -->
+    <div class="card">
+      <div class="card-top" style="background:#8b5cf6"></div>
+      <div class="card-head">
+        <div class="card-meta-row">
+          <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+          <div><div class="card-num">Oblast 10</div><div class="card-title">Správa státu a digitalizace</div></div>
+        </div>
+        <div class="card-score-box"><div class="card-score-num" style="color:#dc2626">3.4</div><div class="card-score-sub">/ 10</div></div>
+      </div>
+      <div class="card-meta-footer">
+        <span class="trend-badge trend-st">→ Trend 10 let: stagnace</span>
+        <span class="eu-badge">EU: digitalizace veřej. správy pod průměrem · efektivita: průměr</span>
+      </div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Digitalizace státních služeb — jen 18 % z 9 000 služeb plně digitálních</div><div class="ind-value">18 % (z 8 916 sl.)</div><div class="ind-year">2025</div><div class="ind-trend t-st">→</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Ztráty zjištěné NKÚ ročně — systémové plýtvání</div><div class="ind-value">~15–30 mld. Kč</div><div class="ind-year">2024</div><div class="ind-trend t-st">→</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Podíl veřejných zakázek bez soutěže</div><div class="ind-value">~30 % objemu</div><div class="ind-year">2024</div><div class="ind-trend t-st">→</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#ca8a04"></div><div class="ind-name">Efektivita veřejné správy (World Governance Indicators)</div><div class="ind-value">79. percentil</div><div class="ind-year">2023</div><div class="ind-trend t-st">→</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#9ca3af"></div><div class="ind-name">Administrativní zátěž podnikání — zdroj (World Bank Doing Business) ukončen, čeká se na náhradu (B-READY)</div><div class="ind-value">? — zdroj neaktuální</div><div class="ind-year">2024</div><div class="ind-trend t-uk">?</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Délka stavebního řízení — reforma (nové lhůty 30–60 dnů) platí od 7/2026, efekt zatím neměřen</div><div class="ind-value">5+ let</div><div class="ind-year">2025</div><div class="ind-trend t-st">→</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#ca8a04"></div><div class="ind-name">Schopnost vlády naplnit programové prohlášení</div><div class="ind-value">~50 % priorit</div><div class="ind-year">2025</div><div class="ind-trend t-st">→</div></div>
+      <div class="card-sources"><strong>Zdroje:</strong> <a href="https://www.nku.cz" target="_blank">NKÚ — výroční zprávy</a> · <a href="https://digital-strategy.ec.europa.eu/en/policies/desi" target="_blank">DESI 2024</a> · <a href="https://www.worldbank.org/en/publication/worldwide-governance-indicators" target="_blank">World Governance Indicators</a> · <a href="https://www.doingbusiness.org" target="_blank">World Bank / Business Regulation</a> · <a href="https://uohs.gov.cz/cs/verejne-zakazky/statistiky.html" target="_blank">ÚOHS — statistiky zakázek</a> · <a href="https://www.megatrendy.cz/" target="_blank">Megatrendy.cz — Karta 18 Digitalizace, AI a automatizace</a></div>
+    </div>
+
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ D — BUDOUCNOST ═══════════════════════════════ -->
+<div class="layer">
+  <div class="layer-head">
+    <div class="layer-badge" style="background:#22c55e">D</div>
+    <div class="layer-name-text">Budoucnost</div>
+    <div class="layer-desc-text">— připravenost na změny a dlouhodobá udržitelnost</div>
+  </div>
+  <div class="grid2">
+
+    <!-- 11 INOVACE -->
+    <div class="card">
+      <div class="card-top" style="background:#22c55e"></div>
+      <div class="card-head">
+        <div class="card-meta-row">
+          <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          <div><div class="card-num">Oblast 11</div><div class="card-title">Inovace a progresivnost</div></div>
+        </div>
+        <div class="card-score-box"><div class="card-score-num" style="color:#ca8a04">4.9</div><div class="card-score-sub">/ 10</div></div>
+      </div>
+      <div class="card-meta-footer">
+        <span class="trend-badge trend-dn">↓ Trend 10 let: zhoršení</span>
+        <span class="eu-badge">EU: patenty dolní třetina · R&D výdaje pod průměrem EU</span>
+      </div>
+      <div class="ind"><div class="ind-dot" style="background:#16a34a"></div><div class="ind-name">Index globálních inovací — pořadí</div><div class="ind-value">~30. místo (interval 27.–32.)</div><div class="ind-year">2025</div><div class="ind-trend t-st">→</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#ca8a04"></div><div class="ind-name">Světová konkurenceschopnost — pořadí</div><div class="ind-value">33. místo</div><div class="ind-year">2024</div><div class="ind-trend t-up">↑</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Inovační výkonnost v rámci EU — pokles na 19. místo v EU, nejvýraznější propad v Evropě</div><div class="ind-value">Moderate Innovator, 19. v EU</div><div class="ind-year">2025</div><div class="ind-trend t-dn">↓</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#ca8a04"></div><div class="ind-name">Výdaje na výzkum a vývoj — klesá 3. rok v řadě, pod průměrem EU (~2,3 %)</div><div class="ind-value">1,82 % HDP</div><div class="ind-year">2024</div><div class="ind-trend t-dn">↓</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Počet patentů na 1 mil. obyvatel</div><div class="ind-value">~23–25 / mil.</div><div class="ind-year">2024</div><div class="ind-trend t-up">↑</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Startupy přesouvající se do zahraničí</div><div class="ind-value">43 %</div><div class="ind-year">2025</div><div class="ind-trend t-uk">?</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Ochota studentů riskovat a inovovat</div><div class="ind-value">53 %</div><div class="ind-year">2025</div><div class="ind-trend t-uk">?</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Závislost exportu na automobilovém průmyslu</div><div class="ind-value">~25 % exportu</div><div class="ind-year">2023</div><div class="ind-trend t-st">→</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#16a34a"></div><div class="ind-name">Absolventi technických a přírodovědných oborů</div><div class="ind-value">~26 %</div><div class="ind-year">2023</div><div class="ind-trend t-up">↑</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#ca8a04"></div><div class="ind-name">Digitální dovednosti populace — pořadí v EU</div><div class="ind-value">18. místo</div><div class="ind-year">2024</div><div class="ind-trend t-st">→</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#16a34a"></div><div class="ind-name">Podíl IT specialistů mezi zaměstnanými</div><div class="ind-value">4,9 %</div><div class="ind-year">2023</div><div class="ind-trend t-st">→</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Rizikový kapitál pro startupy — % HDP</div><div class="ind-value">0,07 %</div><div class="ind-year">2024</div><div class="ind-trend t-up">↑</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Závislost exportu na Německu</div><div class="ind-value">~33 % (60,6 mld. EUR)</div><div class="ind-year">2023</div><div class="ind-trend t-st">→</div></div>
+      <div class="card-sources"><strong>Zdroje:</strong> <a href="https://www.imd.org/centers/wcc/world-competitiveness-center/rankings/" target="_blank">IMD World Competitiveness</a> · <a href="https://research-and-innovation.ec.europa.eu/statistics/performance-indicators/european-innovation-scoreboard_en" target="_blank">EU Innovation Scoreboard</a> · <a href="https://ec.europa.eu/eurostat/web/science-technology-innovation" target="_blank">Eurostat / VaV</a> · <a href="https://www.epo.org/en/about-us/statistics" target="_blank">EPO</a> · <a href="https://digital-strategy.ec.europa.eu/en/policies/desi" target="_blank">DESI 2024</a> · <a href="https://therecursive.com/venture-investment-in-central-and-eastern-europe-sees-56-growth-in-2024/" target="_blank">Invest Europe / CEE VC 2024</a> · <a href="https://dealroom.co/guides/czechia" target="_blank">Dealroom</a> · <a href="https://www.indexprosperity.cz/2026/index-prosperity-ceska-2025/" target="_blank">Index prosperity 2025</a> · <a href="https://www.megatrendy.cz/" target="_blank">Megatrendy.cz — Karty 17 Věda &amp; inovace a 18 Digitalizace</a></div>
+    </div>
+
+    <!-- 12 ŽIVOTNÍ PROSTŘEDÍ -->
+    <div class="card">
+      <div class="card-top" style="background:#22c55e"></div>
+      <div class="card-head">
+        <div class="card-meta-row">
+          <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          <div><div class="card-num">Oblast 12</div><div class="card-title">Životní prostředí</div></div>
+        </div>
+        <div class="card-score-box"><div class="card-score-num" style="color:#ca8a04">4.7</div><div class="card-score-sub">/ 10</div></div>
+      </div>
+      <!-- KLIMA — zlepšuje se, stagnuje za EU -->
+      <div class="card-meta-footer">
+        <span class="trend-badge trend-up">↑ Trend 10 let: zlepšení</span>
+        <span class="eu-badge">EU: emise průměr · výroba elektřiny z uhlí: 4. nejvíce v EU</span>
+      </div>
+      <div class="ind"><div class="ind-dot" style="background:#ca8a04"></div><div class="ind-name">Emise skleníkových plynů — pokles o 54 % od roku 1990</div><div class="ind-value">9,1 tCO₂eq</div><div class="ind-year">2023</div><div class="ind-trend t-up">↑</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Obnovitelné zdroje energie — u elektřiny předposlední v EU</div><div class="ind-value">19,2 %</div><div class="ind-year">2024</div><div class="ind-trend t-up">↑</div></div>
+      <!-- OVZDUŠÍ — silná stránka, hist. úspěch -->
+      <div class="ind"><div class="ind-dot" style="background:#ca8a04"></div><div class="ind-name">Kvalita ovzduší — PM10/PM2.5/NO2/SO2/CO na historických minimech, ale limit přízemního ozonu překročen na 5 stanicích</div><div class="ind-value">O3 překročen na 5 st.</div><div class="ind-year">2025</div><div class="ind-trend t-st">→</div></div>
+      <!-- VODA — tři dimenze -->
+      <div class="ind"><div class="ind-dot" style="background:#16a34a"></div><div class="ind-name">Přístup k pitné vodě z vodovodní sítě</div><div class="ind-value">95,1 % obyvatel</div><div class="ind-year">2024</div><div class="ind-trend t-up">↑</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#ca8a04"></div><div class="ind-name">Řeky v dobrém ekologickém stavu — jen 7,7 %</div><div class="ind-value">7,7 %</div><div class="ind-year">2021</div><div class="ind-trend t-st">→</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Podzemní vody — znečištění dusičnany ze zemědělství</div><div class="ind-value">27 % (EK: ČR mezi nejhoršími EU)</div><div class="ind-year">2022</div><div class="ind-trend t-st">→</div></div>
+      <!-- PŘÍRODA — paradox: výborná právní ochrana, alarmující stav druhů -->
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Ohrožené druhy — 58 % ptáků, 61 % ryb, 58 % rostlin</div><div class="ind-value">viz AOPK ČR</div><div class="ind-year">2024</div><div class="ind-trend t-dn">↓</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Ptáci zemědělské krajiny — pokles o 52 % od roku 1990</div><div class="ind-value">−52 % od 1990</div><div class="ind-year">2024</div><div class="ind-trend t-dn">↓</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#16a34a"></div><div class="ind-name">Stav lesů — kůrovcová kalamita prakticky u konce (těžba klesla ze 34 na 8 mil. m³)</div><div class="ind-value">obnovená plocha 3. rok v řadě &gt; nové holiny</div><div class="ind-year">2025</div><div class="ind-trend t-up">↑</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#ca8a04"></div><div class="ind-name">Chráněná území — cíl EU 2030: 30 %</div><div class="ind-value">16,9 %</div><div class="ind-year">2024</div><div class="ind-trend t-up">↑</div></div>
+      <!-- ODPADY — zlepšuje se, ale stále vysoké skládkování -->
+      <div class="ind"><div class="ind-dot" style="background:#dc2626"></div><div class="ind-name">Produkce komunálního odpadu — příliš vysoká</div><div class="ind-value">553 kg/ob.</div><div class="ind-year">2022</div><div class="ind-trend t-dn">↓</div></div>
+      <div class="ind"><div class="ind-dot" style="background:#ca8a04"></div><div class="ind-name">Recyklace odpadu — stále pod cílem EU</div><div class="ind-value">43 %</div><div class="ind-year">2023</div><div class="ind-trend t-up">↑</div></div>
+      <!-- CELKOVÝ INDEX — s poznámkou o paradoxu -->
+      <div class="ind"><div class="ind-dot" style="background:#16a34a"></div><div class="ind-name">Index ekologické výkonnosti Yale — 17. na světě</div><div class="ind-value">65,5 / 100</div><div class="ind-year">2024</div><div class="ind-trend t-up">↑</div></div>
+      <div class="card-sources"><strong>Zdroje:</strong> <a href="https://epi.yale.edu/country/2024/CZE" target="_blank">Yale EPI 2024 / ČR</a> · <a href="https://mzp.gov.cz/cz/pro-media-a-verejnost/aktuality/archiv-tiskovych-zprav/zprava-o-zivotnim-prostredi-za-rok-2024" target="_blank">MŽP — Zpráva o ŽP 2024</a> · <a href="https://www.eea.europa.eu/en/europe-environment-2025/countries/czechia/total-greenhouse-gas-emissions" target="_blank">EEA — GHG 2025</a> · <a href="https://aopk.gov.cz/cs/aktualni-stav-druhu" target="_blank">AOPK — Aktuální stav druhů</a> · <a href="https://www.birdlife.cz/category/ptaci-zemedelske-krajiny/" target="_blank">ČSO — Ptáci zemědělské krajiny</a> · <a href="https://www.silvarium.cz/lesnictvi/zprava-o-stavu-lesa-2024-mene-nahodilych-tezeb-vice-prirozene-obnovy" target="_blank">MZe Zelená zpráva 2024</a> · <a href="https://www.enviweb.cz/131521" target="_blank">MZe Modrá zpráva 2024</a> · <a href="https://info.chmi.cz/zpravy/UKO_AIM2024/" target="_blank">ČHMÚ</a> · <a href="https://www.vtei.cz/en/2024/06/assessment-of-the-status-of-surface-water-bodies-in-the-czech-republic-for-2019-2021/" target="_blank">VTEI — Stav vod</a> · <a href="https://environment.ec.europa.eu/system/files/2022-09/Czechia%20-%20EIR%20Country%20Report%202022%20(CS).PDF" target="_blank">EK — Přezkum ŽP ČR 2022</a> · <a href="https://mzp.gov.cz/cz/pro-media-a-verejnost/aktuality/archiv-tiskovych-zprav/odpady-v-roce-2023-pokles-skladkovani" target="_blank">MŽP — Odpady 2023</a> · <a href="https://mpo.gov.cz/cz/energetika/statistika/obnovitelne-zdroje-energie/" target="_blank">MPO — OZE</a> · <a href="https://www.oecd.org/en/publications/how-s-life-2024_90ba854a-en.html" target="_blank">OECD How's Life? 2024</a> · <a href="https://www.ceskovdatech.cz/clanek/179-voda-v-krajine/" target="_blank">Česko v datech — Voda v krajině</a> · <a href="https://www.megatrendy.cz/" target="_blank">Megatrendy.cz — Karty 1 Klima &amp; 2 Životní prostředí</a></div>
+    </div>
+
+  </div>
+</div>
+
+
+</div><!-- /main -->
+
+<!-- CHANGELOG -->
+<div class="changelog-wrap">
+  <button class="changelog-toggle" onclick="toggleChangelog(this)" aria-expanded="false">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    Změny a aktualizace
+  </button>
+  <div class="changelog-body" id="changelog-body">
+
+    <div class="cl-entry">
+      <div class="cl-date">Q3 2026 — červenec 2026 · struktura a vizualizace</div>
+      <ul class="cl-items">
+        <li>Přečíslování oblastí: Oblast 12 (Správa státu) přesunuta za Oblast 09 (Rovnost) → nové pořadí 10 Správa státu, 11 Inovace, 12 Životní prostředí</li>
+        <li>Přidána časová osa vývoje celkového indexu do hlavičky dashboardu (Q2 2026: 5,8 → Q3 2026: 5,7)</li>
+      </ul>
+    </div>
+
+    <div class="cl-entry">
+      <div class="cl-date">Q3 2026 — červenec 2026 · kvartální datová revize</div>
+      <ul class="cl-items">
+        <li>Bezpečnost: Globální index míru (GPI) 2026 — ČR klesla z 11. na 13. místo na světě, dlouhodobě klesající trend (IEP, primární zdroj)</li>
+        <li>Bezpečnost: objasněnost trestných činů 37 % → 45,2 % (2025, Policie ČR) — výrazné zlepšení</li>
+        <li>Bezpečnost: výdaje na obranu — ČR reportuje 2,06 % HDP, NATO ale uznává jen 1,78 % kvůli sporu o metodiku (zahrnutí dopravní infrastruktury)</li>
+        <li>Bezpečnost: důvěra v policii/armádu aktualizována na CVVM 2026 (70 %/71 %) — pozor, CVVM změnilo metodiku, čísla nejsou přímo srovnatelná s roky do 2024</li>
+        <li>Ekonomika: nezaměstnanost 2,6 % → 3,2 % (2026), nejvyšší za 10 let — barva posunuta na žlutou</li>
+        <li>Ekonomika: inflace 2,7 % → 2,1 % (květen 2026), průměrná mzda 46 100 → 49 215 Kč (2025)</li>
+        <li>Veřejné finance: veřejný dluh sjednocen na 44,2 % HDP (2025, MF ČR); saldo −2,0 % → −1,9 % HDP</li>
+        <li>Veřejné finance: průběžný penzijní systém se díky silnému trhu práce dočasně téměř vyrovnal (z −80 mld. Kč na cca +20 mld. Kč odhad 2025) — skóre oblasti zvýšeno z 3,8 na 4,4; dlouhodobý výhled zůstává problematický, zdravotní pojišťovny naopak dál prohlubují deficit (VZP riziko vyčerpání rezerv do 2028)</li>
+        <li>Vzdělání: výdaje na vzdělávání upřesněny na 4,2 % HDP dle OECD Education at a Glance 2025 (dříve 4,5 %); platy učitelů navzdory navýšení tarifů dál klesají vůči průměrné mzdě (projekce ~102 % pro 2026)</li>
+        <li>Mentální zdraví: spokojenost se životem dle World Happiness Report 2026 mírně vzrostla na 6,82 (z 6,78), ČR zůstává 20. na světě</li>
+        <li>Fyzické zdraví: porodnost klesla na nové historické minimum 1,28 (2025, z 1,45) — barva posunuta na červenou; výdaje na zdravotnictví 8,2 % → 8,5 % HDP (OECD Health at a Glance 2025)</li>
+        <li>Demokracie: svoboda tisku (RSF) 10. → 11. místo na světě (2026, mírný pokles)</li>
+        <li>Rovnost a bydlení: GINI koeficient 0,258 → 0,244 (2023, Eurostat); exekuce 3,35 mil. → 3,16 mil. (2025); Index rovnosti žen a mužů (EIGE) aktualizován na 53,2/100, 25. z 27 EU — EIGE v roce 2025 zásadně změnila metodiku, číslo není přímo srovnatelné s rokem 2024</li>
+        <li>Inovace: European Innovation Scoreboard 2025 — ČR klesla na 19. místo v EU (z 16.), nejvýraznější meziroční propad v Evropě; výdaje na VaV klesají 3. rok v řadě na 1,82 % HDP — skóre oblasti sníženo z 5,2 na 4,9</li>
+        <li>Životní prostředí: kvalita ovzduší — poprvé v historii splněny limity pro PM10/PM2.5/NO2/SO2/CO, ale limit přízemního ozonu překročen na 5 stanicích (2025); kůrovcová kalamita prakticky u konce (těžba klesla ze 34 na 8 mil. m³) — skóre oblasti sníženo z 5,0 na 4,7 (metodická oprava: původně chybně 4,6; ozon na 5 stanicích nestačí převážit 5 zlepšení v ostatních ukazatelích ovzduší)</li>
+        <li>Správa státu: indikátor administrativní zátěže podnikání označen jako neaktuální — zdroj World Bank Doing Business byl ukončen (nahrazen rámcem B-READY, data pro ČR zatím nedohledána); doplněna poznámka o reformě stavebního řízení platné od 7/2026 (nové lhůty 30–60 dnů)</li>
+        <li>Opraven nesoulad mezi pill a kartovým skóre u oblastí 05, 07 a 09 (byly nekonzistentní v předchozí verzi)</li>
+        <li>Celkové skóre ČR: 5,8 → 5,7 / 10 · Silné 4, Průměrné 5 (dříve 4), Slabé 3 (dříve 4)</li>
+      </ul>
+      <a class="cl-pdf" href="q3_2026_komentar.pdf" target="_blank">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="12" x2="12" y2="18"/><polyline points="9 15 12 18 15 15"/></svg>
+        Kvartální komentář Q3 2026 (PDF)
+      </a>
+    </div>
+
+    <div class="cl-entry">
+      <div class="cl-date">Q3 2026 — červenec 2026 · OECD How's Life? 2024</div>
+      <ul class="cl-items">
+        <li>OECD How's Life? 2024 přidán jako páteřní zdroj do 7 oblastí (01, 05, 06, 07, 08, 09, 11)</li>
+        <li>Nový indikátor Oblast 01: Disponibilní příjmy domácností — pod průměrem OECD o 13 % (USD 26 664 vs. USD 30 490)</li>
+        <li>Nový indikátor Oblast 06: Work-life balance — přepracovanost zaměstnanců jen 5 % vs. OECD průměr 10 %</li>
+      </ul>
+    </div>
+
+    <div class="cl-entry">
+      <div class="cl-date">Q2 2026 — červen 2026 · inicializace</div>
+      <ul class="cl-items">
+        <li>Dashboard spuštěn s 12 oblastmi hodnocení a 125+ indikátory</li>
+        <li>Celkové skóre ČR: 5,8 / 10 · Silné 4, Průměrné 4, Slabé 4</li>
+        <li>Oblast 10 Správa státu a digitalizace nově přidána (skóre 3,8)</li>
+        <li>Nové indikátory: LTC výdaje (Oblast 05), Mediální gramotnost (Oblast 07), Integrace migrantů (Oblast 09)</li>
+        <li>Oblast 07 skóre přepočteno na 4,5 po zahrnutí mediální gramotnosti</li>
+        <li>Přidány zdroje: Česko v datech (ceskovdatech.cz), Evropa v datech (evropavdatech.cz)</li>
+        <li>Přidán zdroj: České priority — FUTURE-PRO Megatrendy (megatrendy.cz) do 7 oblastí</li>
+        <li>Do hlavičky přidán odkaz na stažení výročního PDF reportu</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function toggleChangelog(btn) {
+  const body = document.getElementById('changelog-body');
+  const open = body.classList.toggle('open');
+  btn.classList.toggle('open', open);
+  btn.setAttribute('aria-expanded', open);
+}
+
+// ── Collapsible indicators ──────────────────────────────────────────
+(function() {
+  const MAX_VISIBLE = 4;
+
+  document.querySelectorAll('.card').forEach(function(card) {
+    const inds = Array.from(card.querySelectorAll('.ind'));
+    if (inds.length <= MAX_VISIBLE) return;
+
+    // Hide indicators beyond MAX_VISIBLE
+    inds.slice(MAX_VISIBLE).forEach(function(ind) {
+      ind.classList.add('ind-hidden');
+    });
+
+    const hidden = inds.length - MAX_VISIBLE;
+
+    // Create toggle button
+    const btn = document.createElement('button');
+    btn.className = 'ind-toggle';
+    btn.setAttribute('aria-expanded', 'false');
+    btn.innerHTML =
+      '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>' +
+      '<span>Zobrazit dalších ' + hidden + ' ukazatelů</span>';
+
+    btn.addEventListener('click', function() {
+      const isOpen = btn.classList.toggle('open');
+      btn.setAttribute('aria-expanded', isOpen);
+      inds.slice(MAX_VISIBLE).forEach(function(ind) {
+        ind.classList.toggle('ind-hidden', !isOpen);
+      });
+      btn.querySelector('span').textContent = isOpen
+        ? 'Skrýt'
+        : 'Zobrazit dalších ' + hidden + ' ukazatelů';
+    });
+
+    // Insert before card-sources (if exists) or at end of card
+    const sources = card.querySelector('.card-sources');
+    if (sources) {
+      card.insertBefore(btn, sources);
+    } else {
+      card.appendChild(btn);
+    }
+  });
+})();
+</script>
+
+
+<!-- FOOTER -->
+<div class="footer">
+  <strong>Hodina ročně pro Česko</strong> · Výroční přehled stavu ČR · Data ze 35+ zdrojů: Eurostat, ČSÚ, OECD, OECD How's Life?, World Bank, IEP, NCSI, EIU, Freedom House, Transparency International, RSF, WHO, Index prosperity ČS, WHR/Gallup a další ·
+  Metodika: skóre oblasti = průměr indikátorů (🟢=3, 🟡=2, 🔴=1, ?=1,5) normalizovaný na škálu 0–10 · Celkové skóre = průměr 12 oblastí · Omezení: všechny oblasti i indikátory mají stejnou váhu; chybí longitudinální srovnání trendů ·
+  Aktualizováno červenec 2026 · <em>Věřím, že porozumění je prvním krokem ke změně.</em>
+</div>
+
+</body>
+</html>
